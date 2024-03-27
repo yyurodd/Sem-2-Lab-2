@@ -17,41 +17,41 @@ class Node {
     }
 
 }
-class DynamicMassive<T> {
-    private Object[] array;
+class DynamicMassive {
+    private Integer[] array;
     int size;
     private static final int INITIAL_CAPACITY = 10;
 
     public DynamicMassive() {
-        this.array = new Object[INITIAL_CAPACITY];
+        this.array = new Integer[INITIAL_CAPACITY];
         this.size = 0;
     }
 
     private void resizeIfNeeded() {
         if(size == array.length) {
-            Object[] newArray = new Object[array.length * 2];
+            Integer[] newArray = new Integer[array.length * 2];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
         }
     }
 
-    public void insertFirst(T data) {
+    public void insertFirst(Integer data) {
         resizeIfNeeded();
         System.arraycopy(array, 0, array, 1, size);
         array[0] = data;
         size++;
     }
 
-    public void insertLast(T data) {
+    public void insertLast(Integer data) {
         resizeIfNeeded();
         array[size++] = data;
     }
-    public T getElement(int index) {
+    public Integer getElement(int index) {
         if (index < 0 || index >= size) {
             System.out.println("Index out of bounds");
             return null;
         }
-        return (T) array[index];
+        return array[index];
     }
 
 }
@@ -124,7 +124,7 @@ class DoublyLinkedList {
         System.out.println("Время вставки: " + (end - start)/1000000.0 + " мс.");
     }
 
-    void fillListWithRandNums(DoublyLinkedList list){
+    void fillListWithRandNumbs(DoublyLinkedList list){
         Scanner scanner = new Scanner(System.in);
         Random rand = new Random();
         System.out.println("Введите количество элементов в списке, которые будут случайными числами от 0 до 99: ");
@@ -412,7 +412,7 @@ public class Main {
             }
             switch (number) {
                 case 1:
-                    list.fillListWithRandNums(list);
+                    list.fillListWithRandNumbs(list);
                     break;
                 case 2:
                     System.out.println("""
@@ -422,7 +422,7 @@ public class Main {
                             """);
                     int choice = scanner.nextInt();
 
-                    DynamicMassive times = new DynamicMassive(); // Создаем массив здесь
+                    DynamicMassive times = new DynamicMassive();
 
                     while (true) {
                         String input = scanner.next();
@@ -443,7 +443,7 @@ public class Main {
                                 end = System.nanoTime();
                             }
                             long timeInNanos = end - start;
-                            times.insertLast(timeInNanos);
+                            times.insertLast((int) timeInNanos);
                         } catch (NumberFormatException e) {
                             System.out.println("Ошибка: введено не целое число");
                         }
