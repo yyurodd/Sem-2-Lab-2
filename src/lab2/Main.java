@@ -17,6 +17,7 @@ class Node {
     }
 
 }
+
 class DynamicMassive {
     private Integer[] array;
     int size;
@@ -52,6 +53,14 @@ class DynamicMassive {
             return null;
         }
         return array[index];
+    }
+
+    public void GetElementSpeed() {
+        int index = 0;
+        long start = System.nanoTime();
+        getElement(index);
+        long end = System.nanoTime();
+        System.out.println("Time elapsed for getElement: " + (end-start)/1000000.0 + " nanoseconds");
     }
 
 }
@@ -315,7 +324,7 @@ class DoublyLinkedList {
 
         if (current != null) {
             long end = System.nanoTime();
-            System.out.println("Индекс элемента: " + current.data);
+            System.out.println("Значение по индексу: " + current.data);
             System.out.println("Время получения элемента по индексу: " + (end - start)/1000000.0 + " мс");
             return current.data;
         } else {
@@ -357,23 +366,32 @@ class DoublyLinkedList {
 
         int[] indexes = new int[count];
         current = head;
+        int currentDataIndex = 0;
         int currentIndex = 0;
 
         while (current != null) {
             if (current.data == value) {
-                indexes[currentIndex] = currentIndex;
+                indexes[currentIndex] = currentDataIndex;
                 currentIndex++;
             }
+            currentDataIndex++;
             current = current.next;
         }
         long end = System.nanoTime();
         if (count == 0) {
             System.out.println("Элемент со значением " + value + " не найден.");
         } else {
-            System.out.println("Индексы элементов" + Arrays.toString(indexes));
+            System.out.println("Индексы элементов: " + Arrays.toString(indexes));
             System.out.println("Время получения индексов по значению: " + (end - start)/1000000.0 + " мс");
         }
         return indexes;
+
+    }
+
+    void clearAll(){
+        head = null;
+        tail = null;
+        System.gc();
     }
 
     void display() {
@@ -404,6 +422,7 @@ public class Main {
                     2 - Ввести элементы в список вручную.                    \s
                     3 - Вставка, удаление, обмена и получение элемента двусвязного списка.
                     4 - Вывод списка на экран.
+                    5 - Очистить список.
                     0 - Завершить программу.
                     """);
             number = scanner.nextInt();
@@ -451,7 +470,7 @@ public class Main {
 
                     long sum = 0;
                     for (int i = 0; i < times.size; i++) {
-                        long time = (long) times.getElement(i); // Приведение к long
+                        long time = (long) times.getElement(i);
                         sum += time;
                     }
 
@@ -512,13 +531,18 @@ public class Main {
                             System.out.println("Введите значение: ");
                             value = scanner.nextInt();
                             list.getFirstIndexByValue(value);
+                            break;
                         case 8:
                             System.out.println("Введите значение: ");
                             value = scanner.nextInt();
                             list.getIndexesByValue(value);
+                            break;
                     }
                 case 4:
                     list.display();
+                    break;
+                case 5:
+                    list.clearAll();
                     break;
             }
         }
