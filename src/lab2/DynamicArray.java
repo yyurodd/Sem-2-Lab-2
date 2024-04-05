@@ -96,13 +96,7 @@ public class DynamicArray {
         return array[index];
     }
 
-    public void GetElementSpeed() {
-        int index = 0;
-        long start = System.nanoTime();
-        getElement(index);
-        long end = System.nanoTime();
-        System.out.println("Время получения элемента: " + (end-start)/1000000.0 + " мс");
-    }
+
 
     public void display() {
         for (int i = 0; i < size; i++) {
@@ -127,19 +121,24 @@ public class DynamicArray {
         } else if (index == size) {
             insertLast(data);
         } else {
+            resizeIfNeeded();
             for (int i = size - 1; i >= index; i--) {
                 array[i + 1] = array[i];
             }
             array[index] = data;
+            size++;
         }
         long end = System.nanoTime();
         System.out.println("Время вставки: " + (end - start) / 1000000.0 + " мс.");
     }
 
     public void swapByIndex(int index1, int index2) {
+        long start = System.nanoTime();
         int tmp = array[index1];
         array[index1] = array[index2];
         array[index2] = tmp;
+        long end = System.nanoTime();
+        System.out.println("Время обмена элементов: " + (end - start) / 1000000.0 + " мс.");
     }
 
     public int getFirstIndexByValue(int value) {
