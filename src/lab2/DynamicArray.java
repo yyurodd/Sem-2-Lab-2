@@ -15,7 +15,25 @@ public class DynamicArray {
     }
 
     public void resizeIfNeeded() {
-        if(size == array.length) {
+        int emptyCells = 0;
+        for (int i = 0; i < size; i++) {
+            if (array[i] == null) {
+                emptyCells++;
+            }
+        }
+
+        if (emptyCells > array.length / 2) {
+            Integer[] newArray = new Integer[array.length / 2];
+            int newIndex = 0;
+            for (int i = 0; i < size; i++) {
+                if (array[i] != null) {
+                    newArray[newIndex] = array[i];
+                    newIndex++;
+                }
+            }
+            size -= emptyCells;
+            array = newArray;
+        } else if (size == array.length) {
             Integer[] newArray = new Integer[array.length * 2];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
@@ -51,14 +69,13 @@ public class DynamicArray {
         if (index < 0 || index >= size){
             System.err.println("Неверный индекс.");
         } else {
-            long start = System.nanoTime();
+
             for (int i = index; i < size - 1; i++) {
                 array[i] = array[i + 1];
             }
             array[size - 1] = null;
             size--;
-            long end = System.nanoTime();
-            System.out.println("Время удаления по индексу: " + (end - start)/1000000.0 + " мс");
+
         }
     }
 
@@ -99,10 +116,16 @@ public class DynamicArray {
 
 
     public void display() {
-        for (int i = 0; i < size; i++) {
-            System.out.print(array[i] + " ");
+        if (array.length == 0){
+            System.err.println("Массив пуст.");
         }
-        System.out.println();
+        else {
+            System.out.print("Массив: ");
+            for (int i = 0; i < size; i++) {
+                System.out.print(array[i] + " ");
+            }
+            System.out.println();
+        }
     }
 
     public void clear() {
@@ -183,5 +206,17 @@ public class DynamicArray {
         }
 
         return indexes;
+    }
+
+    public void removeKRandValues(int k) {
+        Random random = new Random();
+        long start = System.nanoTime();
+        for (int i = 0; i < k; i++){
+            int randIndex = random.nextInt(size);
+            removeByIndex(randIndex);
+            resizeIfNeeded();
+        }
+        long end = System.nanoTime();
+        System.out.println("Время удаления k случайных значений в массиве: " + (end - start)/1000000.0 + " мс");
     }
 }
