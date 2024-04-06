@@ -1,9 +1,6 @@
 package lab2;
 
-import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
-
 
 class Node {
     int data;
@@ -43,7 +40,12 @@ public class Main {
                     8 - Вставка, удаление, обмен и получение элемента динамического массива.
                     9 - Вывод массива на экран.
                     10 - Очистить массив.
-                    0 - Завершить программу.
+                    -----------------------------------------------------------------------------------------------------------------
+                            ИДЗ
+                    -----------------------------------------------------------------------------------------------------------------
+                    11 - Удалить k случайных узлов двусвязного списка и k случайных значений динамического массива.
+                    -----------------------------------------------------------------------------------------------------------------
+                    0 - Завершить выполнение программы.
                     """);
             number = scanner.nextInt();
             if (number == 0) {
@@ -158,7 +160,7 @@ public class Main {
                             list.getIndexesByValue(value);
                             break;
                     }
-                break;
+                    break;
                 case 4:
                     list.display();
                     break;
@@ -239,7 +241,10 @@ public class Main {
                         case 2:
                             System.out.println("Введите индекс по которому вы хотите удалить элемент: ");
                             index = scanner.nextInt();
+                            long start = System.nanoTime();
                             arr.removeByIndex(index);
+                            long end = System.nanoTime();
+                            System.out.println("Время удаления по индексу: " + (end - start)/1000000.0 + " мс");
                             break;
                         case 3:
                             System.out.println("Введите значение: ");
@@ -280,6 +285,16 @@ public class Main {
                 case 10:
                     arr.clear();
                     break;
+                case 11:
+                    System.out.println("Введите k: ");
+                    try {
+                        int k = scanner.nextInt();
+                        list.removeKRandNodes(k);
+                        arr.removeKRandValues(k);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ошибка: введено не целое число");
+                    }
+
             }
         }
     }
