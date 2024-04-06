@@ -100,6 +100,8 @@ public class DoublyLinkedList {
         return count;
     }
 
+
+
     public void removeByIndex(int position){
         if (position < 0){
             System.err.println("Неверный индекс.");
@@ -345,5 +347,33 @@ public class DoublyLinkedList {
             current = current.next;
         }
         System.out.println();
+    }
+
+    public void removeKRandNodes(int k) {
+        Random random = new Random();
+        int size = getListLength();
+        long start = System.nanoTime();
+        for(int i = 0; i < k; i++){
+            int randIndex = random.nextInt(size);
+            Node current = head;
+            for (int j = 0; j < randIndex; j++){
+                current = current.next;
+            }
+            if (current == head){
+                head = current.next;
+            }
+            if (current == tail){
+                tail = current.prev;
+            }
+            if (current.prev != null){
+                current.prev.next = current.next;
+            }
+            if (current.next != null){
+                current.next.prev = current.prev;
+            }
+            size--;
+        }
+        long end = System.nanoTime();
+        System.out.println("Время удаления k случайных узлов в двусвязном списке: " + (end - start)/1000000.0 + " мс");
     }
 }
